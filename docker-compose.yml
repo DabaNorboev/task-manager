@@ -30,9 +30,6 @@ services:
         - POSTGRES_DB=${DB_DATABASE}
         - POSTGRES_USER=${DB_USERNAME}
         - POSTGRES_PASSWORD=${DB_PASSWORD}
-        - DB_HOST=${DB_HOST}
-        - DB_DATABASE=${DB_DATABASE}
-        - DB_USERNAME=${DB_USERNAME}
-        - DB_PASSWORD=${DB_PASSWORD}
+        - POSTGRES_PORT=${DB_PORT}
     ports:
       - 5432:5432
