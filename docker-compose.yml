@@ -23,13 +23,14 @@ services:
 
   db:
     image: postgres:latest
-    volumes:
-      - ./.docker/postgres/data:/var/lib/postgresql/data
+#    volumes:
+#      - ./.docker/postgres/data:/var/lib/postgresql/data
     environment:
+        - POSTGRES_CONNECTION=${DB_CONNECTION}
         - POSTGRES_HOST=${DB_HOST}
+        - POSTGRES_PORT=${DB_PORT}
         - POSTGRES_DB=${DB_DATABASE}
         - POSTGRES_USER=${DB_USERNAME}
         - POSTGRES_PASSWORD=${DB_PASSWORD}
-        - POSTGRES_PORT=${DB_PORT}
     ports:
       - 5432:5432
