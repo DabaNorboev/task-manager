@@ -23,8 +23,8 @@ services:
 
   db:
     image: postgres:latest
-#    volumes:
-#      - ./.docker/postgres/data:/var/lib/postgresql/data
+    volumes:
+      - ./.docker/postgres/data:/var/lib/postgresql/data
     environment:
         - POSTGRES_CONNECTION=${DB_CONNECTION}
         - POSTGRES_HOST=${DB_HOST}
