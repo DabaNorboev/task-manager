@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 @section('content')
     <h2><strong>Войдите в свой аккаунт</strong></h2>
-    <form action="" method="POST">
+    <form action="{{route('user.login.post')}}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email</label>
