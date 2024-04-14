@@ -1,113 +1,29 @@
-<form class="login">
-    <h2>Welcome, User!</h2>
-    <p>Please register</p>
-    <input type="text" placeholder="User Name" />
-    <input type="password" placeholder="Password" />
-    <input type="submit" value="Log In" />
-    <div class="links">
-        <a href="/login">login</a>
-    </div>
-</form>
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@extends('layouts.auth')
+@section('content')
+    <h2><strong>Создайте свой аккаунт</strong></h2>
+    <form class="row g-3" action="{{route('user.registration.post')}}" method="post">
+        @csrf
+        <div class="col-12">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="ivan@example.com">
+        </div>
+        <div class="col-12">
+            <label for="name" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Иванов Иван">
+        </div>
+        <div class="col-md-6">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль">
+        </div>
+        <div class="col-md-6">
+            <label for="password_confirmation" class="form-label">Подтверждение пароля</label>
+            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Введите пароль еще раз">
+        </div>
 
-    body {
-        background: #c0c0c0;
-        font-family: Raleway, sans-serif;
-        color: #666;
-    }
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <a href="{{route('user.login')}}" class="btn btn-link">У меня уже есть аккаунт</a>
+        </div>
+    </form>
+@endsection
 
-    .registration {
-        margin: 20px auto;
-        padding: 40px 50px;
-        max-width: 300px;
-        border-radius: 5px;
-        background: #fff;
-        box-shadow: 1px 1px 1px #666;
-    }
-    .registration input {
-        width: 100%;
-        display: block;
-        box-sizing: border-box;
-        margin: 10px 0;
-        padding: 14px 12px;
-        font-size: 16px;
-        border-radius: 2px;
-        font-family: Raleway, sans-serif;
-    }
-
-    .registration input[type=text],
-    .registration input[type=password] {
-        border: 1px solid #c0c0c0;
-        transition: .2s;
-    }
-
-    .registration input[type=text]:hover {
-        border-color: #F44336;
-        outline: none;
-        transition: all .2s ease-in-out;
-    }
-
-    .registration input[type=submit] {
-        border: none;
-        background: #EF5350;
-        color: white;
-        font-weight: bold;
-        transition: 0.2s;
-        margin: 20px 0;
-    }
-
-    .registration input[type=submit]:hover {
-        background: #F44336;
-    }
-
-    .registration h2 {
-        margin: 20px 0 0;
-        color: #EF5350;
-        font-size: 28px;
-    }
-
-    .registration p {
-        margin-bottom: 40px;
-    }
-
-    .links {
-        display: table;
-        width: 100%;
-        box-sizing: border-box;
-        border-top: 1px solid #c0c0c0;
-        margin-bottom: 10px;
-    }
-
-    .links a {
-        display: table-cell;
-        padding-top: 10px;
-    }
-
-    .links a:first-child {
-        text-align: left;
-    }
-
-    .links a:last-child {
-        text-align: right;
-    }
-
-    .registration h2,
-    .registration p,
-    .registration a {
-        text-align: center;
-    }
-
-    .registration a {
-        text-decoration: none;
-        font-size: .8em;
-    }
-
-    .registration a:visited {
-        color: inherit;
-    }
-
-    .registration a:hover {
-        text-decoration: underline;
-    }
-</style>

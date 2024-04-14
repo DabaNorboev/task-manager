@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/registration', [UserController::class, 'getRegistration']);
-Route::get('/login', [UserController::class, 'getLogin']);
+Route::get('/registration', [UserController::class, 'getRegistration'])->name('user.registration');
+Route::get('/login', [UserController::class, 'getLogin'])->name('user.login');
 
-Route::post('/registration', [UserController::class, 'postRegistration']);
-Route::post('/login', [UserController::class, 'postLogin']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/registration', [UserController::class, 'create'])->name('user.registration.post');
+Route::post('/login', [UserController::class, 'login'])->name('user.login.post');
+
+
 

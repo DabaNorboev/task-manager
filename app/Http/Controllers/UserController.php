@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function getRegistration()
     {
-        $user = User::find(1);
-        dd($user->email);
-//        return view("registration");
+        return view("registration");
     }
 
     public function create(RegistrationRequest $request)
     {
-
+        User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password'))
+        ]);
+        dd('complete');
     }
 
     public function getLogin()
@@ -24,8 +29,14 @@ class UserController extends Controller
         return view("login");
     }
 
+    public function login(LoginRequest $request)
+    {
+        dd($request->input('email'));
+    }
+
 
     public function logout()
     {
+
     }
 }
