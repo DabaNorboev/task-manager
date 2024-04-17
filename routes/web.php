@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +17,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/registration', [UserController::class, 'getRegistration'])->name('user.registration');
-Route::get('/login', [UserController::class, 'getLogin'])->name('user.login');
+Route::get('/registration', function (){
+    if (Auth::check()) {
+        return redirect(route('main'));
+    }
+    return view('registration');})->name('registration');
+Route::post('/registration', [UserController::class, 'register'])->name('user.registration');
 
-Route::post('/registration', [UserController::class, 'create'])->name('user.registration.post');
-Route::post('/login', [UserController::class, 'login'])->name('user.login.post');
+Route::get('/login', function (){
+    if (Auth::check()) {
+        return redirect(route('main'));
+    }
+    return view('login');})->name('login');
+Route::post('/login', [UserController::class, 'login'])->name('user.login');
+
+Route::get('/logout', function (){
+    Auth::logout();
+    return redirect(route('login'));
+})->name('logout');
+
+Route::get('/main', [MainController::class, 'getMain'])->middleware('auth')->name('main');
+
+Route::post('/main/tasks/create', [TaskController::class, 'create'])->middleware('auth')->name('task.create');
+
+
 
 
 

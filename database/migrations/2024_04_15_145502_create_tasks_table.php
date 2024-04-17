@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->text('description')->nullable();
-            $table->enum('status', ['new', 'pending', 'completed', 'in progress', 'canceled', 'under review', 'overdue', 'on hold', 'on correction'])->default('new');
-            $table->date('deadline');
+            $table->enum('status', ['backlog', 'to do', 'in progress', 'canceled', 'review', 'done'])->default('to do');
+            $table->date('deadline')->nullable();;
             $table->timestamps();
         });
     }
