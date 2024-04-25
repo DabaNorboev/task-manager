@@ -11,11 +11,6 @@ class User extends Model implements Authenticatable
     use HasFactory;
     use \Illuminate\Auth\Authenticatable;
 
-    public function userTasks()
-    {
-        return $this->hasMany(UserTask::class);
-    }
-
     protected $fillable = ['name', 'email', 'password'];
     protected $hidden = ['password'];
 }

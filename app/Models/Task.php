@@ -9,10 +9,5 @@ class Task extends Model
 {
     use HasFactory;
 
-    public function userTasks()
-    {
-        return $this->hasMany(UserTask::class);
-    }
-
     protected $fillable = ['title', 'description', 'status', 'deadline', 'updated_at'];
 }

@@ -1,8 +1,11 @@
 @extends('layouts.pagebase')
 @section('content')
+
+{{--    Создать задачу--}}
+
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-4 mb-4">
+            <div class="col-md-12 mb-4">
                 <div class="card">
                     <div class="card-header">
                         Создать новое задание
@@ -22,39 +25,54 @@
                                 <label for="taskDeadline">Дедлайн</label>
                                 <input type="date" class="form-control" id="taskDeadline" name="deadline">
                             </div>
-                            <button type="submit" class="btn btn-primary">Создать</button>
+
+                            <button type="submit" class="btn btn-primary mt-3">Создать</button>
                         </form>
                     </div>
                 </div>
             </div>
-            @foreach($tasks as $task)
-            <div class="col-md-4 mb-4">
+        </div>
+    </div>
+
+{{--    Фильтрация задач по статусу--}}
+
+<form action="{{ route('main') }}" method="get">
+    <div class="mb-3">
+        <label for="status" class="form-label">Выберите статус задачи</label>
+        <select class="form-select" id="status" name="status">
+            @foreach($statusTranslations as $statusKey => $statusTranslation)
+                <option value="{{ $statusKey }}" {{ $selectedStatus == $statusKey ? 'selected' : '' }}>{{ $statusTranslation }}</option>
+            @endforeach
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Показать</button>
+</form>
+
+{{--    Отображение всех задач, задачи отображаются в блоках по статусу--}}
+
+    @foreach($tasks->groupBy('status') as $status => $statusTasks)
+        <div class="row mb-4">
+            <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{$task->task->title}}</h5>
-                        <p class="card-text">{{$task->task->description ?? ''}}</p>
-                        <p class="card-text">Дедлайн: {{$task->task->deadline ?? ''}}</p>
-                        <p class="card-text text-muted">Дата создания: {{$task->task->created_at}}</p>
-                        <p class="card-text text-muted">Последнее изменение: {{$task->task->updated_at}}</p>
+                        <h5 class="card-title">{{ $statusTranslations[$status] ?? $status }}</h5>
+                        <div class="row g-4">
+                            @foreach($statusTasks as $task)
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $task->title }}</h5>
+                                            <p class="card-text">{{ $task->description ?? '' }}</p>
+                                            <p class="card-text">Дедлайн: {{ $task->deadline ?? '' }}</p>
+                                            <a class="link-offset-2 link-underline link-underline-opacity-0" href="{{ route('task', ['id' => $task->id]) }}">К задаче</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
-            @endforeach
         </div>
-    </div>
+    @endforeach
 @endsection
-
-
-
-
-
-
-
-
-
-
-{{--<p class="card-text">Файл: <a href="#">Ссылка на файл</a></p>--}}
-{{--<div class="form-group">--}}
-{{--    <label for="taskDescription">Файл(можно добавить один в формате URL)</label>--}}
-{{--    <input type="text" class="form-control" id="taskTitle" placeholder="Введите заголовок задания">--}}
-{{--</div>--}}

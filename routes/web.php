@@ -38,8 +38,9 @@ Route::get('/logout', function (){
 
 Route::get('/main', [MainController::class, 'getMain'])->middleware('auth')->name('main');
 
-Route::post('/main/tasks/create', [TaskController::class, 'create'])->middleware('auth')->name('task.create');
-
+Route::get('/tasks/{id}', [TaskController::class, 'getTask'])->middleware('auth')->name('task');
+Route::post('/task/create', [TaskController::class, 'create'])->middleware('auth')->name('task.create');
+Route::put('/task/update/{id}', [TaskController::class, 'update'])->middleware('auth')->name('task.update');
 
 
 

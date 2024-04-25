@@ -17,19 +17,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="{{route('main')}}">Главная</a>
                     </li>
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Задачи
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Все</a></li>
-                            <li><a class="dropdown-item" href="##">В работе</a></li>
-                            <li><a class="dropdown-item" href="###">На проверке</a></li>
-                            <li><a class="dropdown-item" href="####">Сделать</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Завершено</a></li>
-                        </ul>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Аккаунт</a>
                     </li>
@@ -39,10 +26,6 @@
                         <a class="nav-link active" href="{{route('logout')}}">Выйти</a>
                     </li>
                 </ul>
-{{--                <form class="d-flex">--}}
-{{--                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">--}}
-{{--                    <button class="btn btn-outline-success" type="submit">Search</button>--}}
-{{--                </form>--}}
             </div>
         </div>
     </nav>

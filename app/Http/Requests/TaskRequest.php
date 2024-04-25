@@ -18,15 +18,20 @@ class TaskRequest extends FormRequest
     public function prepareForValidation(): void
     {
         $statuses = [
-            'В работе' => 'in progress',
-            'Сделать' => 'backlog',
+            'В работе' => 'in_progress',
+            'Сделать' => 'to_do',
             'На проверке' => 'review',
             'Завершено' => 'done',
+            'Отменено' => 'canceled',
         ];
 
-        $this->merge([
-            'status' => $statuses[$this->status] ?? 'backlog',
-        ]);
+        $engStatuses = ['in_progress', 'to_do', 'review', 'done','canceled'];
+
+        if (!in_array($this->status, $engStatuses)) {
+            $this->merge([
+                'status' => $statuses[$this->status] ?? 'to_do',
+            ]);
+        }
     }
 
     /**
@@ -38,10 +43,11 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => 'nullable|integer',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => ['required', Rule::in(['in progress', 'backlog', 'review', 'done'])],
-            'deadline' => 'nullable|date',
+            'status' => ['required', Rule::in(['in_progress', 'to_do', 'review', 'done','canceled'])],
+            'deadline' => 'nullable|date|date_format:Y-m-d|after_or_equal:tomorrow',
         ];
     }
 }
