@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,25 +16,6 @@ class TaskRequest extends FormRequest
         return true;
     }
 
-    public function prepareForValidation(): void
-    {
-        $statuses = [
-            'В работе' => 'in_progress',
-            'Сделать' => 'to_do',
-            'На проверке' => 'review',
-            'Завершено' => 'done',
-            'Отменено' => 'canceled',
-        ];
-
-        $engStatuses = ['in_progress', 'to_do', 'review', 'done','canceled'];
-
-        if (!in_array($this->status, $engStatuses)) {
-            $this->merge([
-                'status' => $statuses[$this->status] ?? 'to_do',
-            ]);
-        }
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -42,12 +24,13 @@ class TaskRequest extends FormRequest
 
     public function rules(): array
     {
+        $statuses = Status::getStatuses();
         return [
-            'id' => 'nullable|integer',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => ['required', Rule::in(['in_progress', 'to_do', 'review', 'done','canceled'])],
+            'status' => ['nullable', Rule::in($statuses)],
             'deadline' => 'nullable|date|date_format:Y-m-d|after_or_equal:tomorrow',
+            'attachment' => 'nullable|file',
         ];
     }
 }

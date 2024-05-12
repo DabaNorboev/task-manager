@@ -12,13 +12,23 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Статус:
                         <select class="form-select" name="status">
-                            @foreach($statusTranslations as $statusKey => $statusTranslation)
-                                <option value="{{ $statusKey }}" {{ $task->status == $statusKey ? 'selected' : '' }}>{{ $statusTranslation }}</option>
+                            @foreach($statuses as $id => $name)
+                                <option value="{{ $id }}" {{ $task->status_id == $id ? 'selected' : '' }}>{{ $name }}</option>
                             @endforeach
                         </select>
                     </li>
                     <li class="list-group-item">Дедлайн: <input type="date" class="form-control" name="deadline" value="{{ $task->deadline ?? '' }}"></li>
-                    <!-- Убраны поля для последнего изменения и даты создания, так как они обычно не редактируются -->
+                    <li class="list-group-item text-muted">Последнее изменение: {{ $task->updated_at }}</li>
+                    <li class="list-group-item text-muted">Дата создания: {{ $task->created_at }}</li>
+                    <li class="list-group-item">
+                        @if($task->attachment)
+                            <p>Прикрепленный файл: {{ $task->attachment }}</p>
+                            <label for="attachment">Заменить файл</label>
+                        @else
+                            <label for="attachment">Прикрепить файл</label>
+                        @endif
+                        <input type="file" class="form-control" id="attachment" name="attachment">
+                    </li>
                 </ul>
             </div>
             <div class="card-footer">
@@ -26,4 +36,5 @@
             </div>
         </div>
     </form>
+
 @endsection

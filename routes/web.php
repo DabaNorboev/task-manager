@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -40,8 +42,10 @@ Route::get('/main', [MainController::class, 'getMain'])->middleware('auth')->nam
 
 Route::get('/tasks/{id}', [TaskController::class, 'getTask'])->middleware('auth')->name('task');
 Route::post('/task/create', [TaskController::class, 'create'])->middleware('auth')->name('task.create');
+Route::get('/task/update/{id}', [TaskController::class, 'getUpdateForm'])->middleware('auth')->name('task.update.form');
 Route::put('/task/update/{id}', [TaskController::class, 'update'])->middleware('auth')->name('task.update');
 
+Route::post('/comment/create', [CommentController::class, 'create'])->name('comment.create');
 
-
-
+//Route::post('/attachment/create', [AttachmentController::class, 'create'])->name('attachment.create');
+//Route::put('/attachment/update', [AttachmentController::class, 'update'])->name('attachment.update');

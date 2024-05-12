@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
+use App\Models\Comment;
+use App\Models\Status;
 use App\Models\Task;
 use App\Models\UserTask;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -13,45 +16,95 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $statusTranslations = [
-            'in_progress' => 'В работе',
-            'to_do' => 'Сделать',
-            'review' => 'На проверке',
-            'done' => 'Завершено',
-            'canceled' => 'Отменено',
+        $statuses = [
+            '2' => 'В работе',
+            '1' => 'Сделать',
+            '3' => 'На проверке',
+            '4' => 'Завершено',
+            '5' => 'Отменено',
         ];
 
-        return view('task', ['task' => $task, 'statusTranslations' => $statusTranslations]);
+        $comments = Comment::with('user')
+            ->where('task_id', $id)
+            ->orderBy('created_at','asc')
+            ->get();
+
+
+
+        return view('task', ['task' => $task, 'statuses' => $statuses, 'comments' => $comments]);
+    }
+
+    public function getUpdateForm(int $id)
+    {
+        $task = Task::findOrFail($id);
+
+        $statuses = [
+            '2' => 'В работе',
+            '1' => 'Сделать',
+            '3' => 'На проверке',
+            '4' => 'Завершено',
+            '5' => 'Отменено',
+        ];
+
+        return view('task_edit', ['task' => $task, 'statuses' => $statuses]);
     }
 
     public function create(TaskRequest $request)
     {
-        $task = Task::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'status' => $request->input('status'),
-            'deadline' => $request->input('deadline'),
-        ]);
+        if ($request->hasFile('attachment')) {
 
-        UserTask::create([
-            'task_id' => $task->id,
-            'user_id' => Auth::id(),
-        ]);
-        return redirect()->back();
+            $file = $request->file('attachment');
+
+            if ($file->isValid()) {
+
+                $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $path = Storage::disk('local')->putFileAs('attachments', $file, $fileName);
+
+                $task = Task::create([
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'deadline' => $request->input('deadline'),
+                    'attachment' => $path,
+                ]);
+
+                UserTask::create([
+                    'task_id' => $task->id,
+                    'user_id' => Auth::id(),
+                ]);
+
+                return redirect()->back(['filename' => $fileName]);
+            }
+        } else {
+            $task = Task::create([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'deadline' => $request->input('deadline'),
+            ]);
+
+            // Связываем задачу с пользователем
+            UserTask::create([
+                'task_id' => $task->id,
+                'user_id' => Auth::id(),
+            ]);
+            return redirect()->back();
+        }
     }
+
 
     public function update(int $id, TaskRequest $request)
     {
+        $statusId = $request->input('status');
         $task = Task::findOrFail($id);
 
         $task->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'status' => $request->input('status'),
+            'status_id' => $statusId,
             'deadline' => $request->input('deadline'),
         ]);
 
-        return redirect()->back();
+        return redirect()->route('task', ['id' => $id]);
     }
 
 }

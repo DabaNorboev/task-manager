@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->text('description')->nullable();
-            $table->enum('status', ['to_do', 'in_progress', 'canceled', 'review', 'done'])->default('to_do');
+            $table->unsignedBigInteger('status_id')->default(1);
+            $table->foreign('status_id')->references('id')->on('statuses');
             $table->date('deadline')->nullable();;
+            $table->text('attachment')->nullable();
             $table->timestamps();
         });
     }

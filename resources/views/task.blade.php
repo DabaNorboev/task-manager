@@ -1,31 +1,52 @@
 @extends('layouts.pagebase')
 @section('content')
-<form action="{{ route('task.update', ['id' => $task->id]) }}" method="post">
-    @csrf
-    @method('PUT')
     <div class="card mt-3">
         <div class="card-header">
-            <input type="text" class="form-control" name="title" value="{{ $task->title }}">
+            <h5>{{ $task->title }}</h5>
         </div>
         <div class="card-body">
-            <textarea class="form-control" rows="3" name="description">{{ $task->description ?? '' }}</textarea>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Статус:
-                    <select class="form-select" name="status">
-                        @foreach($statusTranslations as $statusKey => $statusTranslation)
-                            <option value="{{ $statusKey }}" {{ $task->status == $statusKey ? 'selected' : '' }}>{{ $statusTranslation }}</option>
-                        @endforeach
-                    </select>
-                </li>
-                <li class="list-group-item">Дедлайн: <input type="date" class="form-control" name="deadline" value="{{ $task->deadline ?? '' }}"></li>
-                <li class="list-group-item text-muted">Последнее изменение: {{ $task->updated_at }}</li>
-                <li class="list-group-item text-muted">Дата создания: {{ $task->created_at }}</li>
-            </ul>
+            <p>{{ $task->description }}</p>
+            <p>Статус: {{ $statuses[$task->status_id] }}</p>
+            <p>Дедлайн: {{ $task->deadline ?? 'Нет' }}</p>
+            <p class="text-muted">Последнее изменение: {{ $task->updated_at }}</p>
+            <p class="text-muted">Дата создания: {{ $task->created_at }}</p>
+
+            @if($task->attachment)
+                <p>Прикрепленный файл: {{ $task->attachment }}</p>
+            @endif
         </div>
         <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{{ route('task.update.form', ['id' => $task->id]) }}" class="btn btn-primary">Изменить</a>
         </div>
     </div>
-</form>
 
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Комментарии к задаче
+                    </div>
+                    @foreach($comments as $comment)
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <p><strong>{{ $comment->user->name }}</strong>: {{ $comment->text }}</p>
+                            <p class="text-muted">{{ $comment->created_at }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{{ route('comment.create') }}" method="post">
+        @csrf
+        <input type="hidden" name="task_id" value="{{ $task->id }}">
+        <div class="mb-3">
+            <label for="text" class="form-label">Новый комментарий</label>
+            <textarea class="form-control" id="text" name="text" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
 @endsection
