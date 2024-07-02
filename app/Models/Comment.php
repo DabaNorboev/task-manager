@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['user_id', 'task_id', 'text'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,5 +19,5 @@ class Comment extends Model
         return $this->belongsTo(Task::class);
     }
 
-    protected $fillable = ['user_id', 'task_id', 'text'];
+
 }

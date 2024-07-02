@@ -22,7 +22,8 @@ class AttachmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file'
+            'file' => 'required|file',
+            'task_id' => 'int|required|exists:tasks,id',
         ];
     }
 }

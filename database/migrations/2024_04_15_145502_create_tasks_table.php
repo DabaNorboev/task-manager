@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('status_id')->default(1);
-            $table->foreign('status_id')->references('id')->on('statuses');
+            $table->foreignId('status_id')->constrained('statuses');
             $table->date('deadline')->nullable();;
-            $table->text('attachment')->nullable();
             $table->timestamps();
         });
     }

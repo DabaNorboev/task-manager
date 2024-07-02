@@ -11,9 +11,15 @@
             <p class="text-muted">Последнее изменение: {{ $task->updated_at }}</p>
             <p class="text-muted">Дата создания: {{ $task->created_at }}</p>
 
-            @if($task->attachment)
-                <p>Прикрепленный файл: {{ $task->attachment }}</p>
+            @if(!empty($attachments))
+                <p>Прикрепленные файлы:</p>
+                @foreach($attachments as $attachment)
+                    <a href="{{route('attachment.download', ['id' => $attachment->id])}}">{{ $attachment->name }}</a>
+                @endforeach
+            @else
+                <p>Прикрепленных файлов нет</p>
             @endif
+
         </div>
         <div class="card-footer">
             <a href="{{ route('task.update.form', ['id' => $task->id]) }}" class="btn btn-primary">Изменить</a>
@@ -28,6 +34,11 @@
                     <div class="card-header">
                         Комментарии к задаче
                     </div>
+                    @if(count($comments)===0)
+                        <div class="card-body">
+                            <p class="text-muted">Комментариев нет</p>
+                        </div>
+                    @endif
                     @foreach($comments as $comment)
                     <div class="card-body">
                         <div class="mb-3">

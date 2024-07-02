@@ -14,5 +14,5 @@ class Attachment extends Model
         return $this->belongsTo(Task::class);
     }
 
-    protected $fillable = ['uploaded_by', 'task_id', 'attachment_url'];
+    protected $fillable = ['name','attachment_path','uploaded_by', 'task_id'];
 }

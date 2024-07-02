@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('uploaded_by');
-            $table->foreign('uploaded_by')->references('id')->on('users');
-            $table->unsignedBigInteger('task_id');
-            $table->foreign('task_id')->references('id')->on('tasks');
-            $table->text('attachment_url');
+            $table->string('name');
+            $table->text('attachment_path');
+            $table->foreignId('uploaded_by')->constrained('users');
+            $table->foreignId('task_id')->constrained('tasks');
             $table->timestamps();
         });
     }

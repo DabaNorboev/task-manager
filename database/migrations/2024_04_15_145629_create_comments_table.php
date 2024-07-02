@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('task_id');
-            $table->foreign('task_id')->references('id')->on('tasks');
             $table->text('text');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('task_id')->constrained('tasks');
             $table->timestamps();
         });
     }

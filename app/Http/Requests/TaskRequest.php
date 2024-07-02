@@ -28,9 +28,7 @@ class TaskRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => ['nullable', Rule::in($statuses)],
             'deadline' => 'nullable|date|date_format:Y-m-d|after_or_equal:tomorrow',
-            'attachment' => 'nullable|file',
         ];
     }
 }

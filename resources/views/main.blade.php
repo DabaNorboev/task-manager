@@ -1,5 +1,15 @@
 @extends('layouts.pagebase')
 @section('content')
+{{--    <div class="card-body">--}}
+{{--        <form action="{{ route('attachment.create') }}" method="post" enctype="multipart/form-data">--}}
+{{--            @csrf--}}
+{{--            <div class="form-group">--}}
+{{--                <label for="attachment">Прикрепить файл</label>--}}
+{{--                <input type="file" class="form-control" id="attachment" name="file">--}}
+{{--            </div>--}}
+{{--            <button type="submit" class="btn btn-primary mt-3">Создать</button>--}}
+{{--        </form>--}}
+{{--    </div>--}}
 
 {{--    Создать задачу--}}
 
@@ -11,7 +21,7 @@
                         Создать новое задание
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('task.create') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('task.createTask') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="taskTitle">Заголовок<span class="text-danger">*</span></label>
@@ -27,9 +37,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="attachment">Прикрепить файл</label>
-                                <input type="file" class="form-control" id="attachment" name="attachment">
+                                <input type="file" class="form-control" id="attachment" name="file">
                             </div>
-
                             <button type="submit" class="btn btn-primary mt-3">Создать</button>
                         </form>
                     </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MainRequest;
-use App\Models\Status;
 use App\Models\Task;
 use App\Models\UserTask;
 use Illuminate\Support\Facades\Auth;

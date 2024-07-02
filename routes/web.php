@@ -47,5 +47,8 @@ Route::put('/task/update/{id}', [TaskController::class, 'update'])->middleware('
 
 Route::post('/comment/create', [CommentController::class, 'create'])->name('comment.create');
 
-//Route::post('/attachment/create', [AttachmentController::class, 'create'])->name('attachment.create');
-//Route::put('/attachment/update', [AttachmentController::class, 'update'])->name('attachment.update');
+Route::post('/attachment/create', [AttachmentController::class, 'create'])->name('attachment.create');
+Route::delete('/attachment/delete/{id}', [AttachmentController::class, 'delete'])->name('attachment.delete');
+Route::get('/attachment/download/{id}', [AttachmentController::class, 'download'])->name('attachment.download');
+
+Route::post('/task/createTask', [TaskController::class, 'createTask'])->name('task.createTask');
